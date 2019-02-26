@@ -1,5 +1,3 @@
-https://git.cs.bham.ac.uk/bxg796/SWW-exercises/tree/master/realistic-messenger
-
 # Solution
 
 # Initial Idea
