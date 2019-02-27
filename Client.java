@@ -218,6 +218,7 @@ public class Client {
 		clientUI.tell("login\t\tInitiates the login sequence\n"
 		+ "register\tInitiates the registration sequence\n"
 		+ "help\t\tDisplays the available commands and their function\n"
+		+ "toggle gui\tSwaps between CLI and GUI modes\n"
 		+ "quit\t\tCloses down this client");
 	}
 

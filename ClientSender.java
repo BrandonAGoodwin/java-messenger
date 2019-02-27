@@ -158,6 +158,7 @@ public class ClientSender extends MessengerThread {
 		+ "previous\tMoves the pointer towards the previous oldest message and prints it\n"
 		+ "delete\t\tDeletes the message at the pointer\n"
 		+ "logout\t\tLogs the client out of the current user\n"
+		+ "toggle gui\tSwaps between CLI and GUI modes\n"
 		+ "quit\t\tCloses the client application");
 	}
 
