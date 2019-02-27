@@ -64,6 +64,10 @@ public class Command {
 	 * Toggle gui command.
 	 */
 	public static final String TOGGLE_GUI = addCommand("toggle gui");
+	/**
+	 * Help command.
+	 */
+	public static final String HELP = addCommand("help");
 
 	/**
 	 * Add a command to the command ArrayList.

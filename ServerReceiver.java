@@ -81,6 +81,9 @@ public class ServerReceiver extends MessengerThread {
 	}
 
 	@Override
+protected void help() {/* Do Nothing */}
+
+	@Override
 	protected void quit() {
 		sendCommand(Command.QUIT);
 	}

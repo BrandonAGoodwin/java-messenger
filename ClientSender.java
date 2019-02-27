@@ -150,6 +150,17 @@ public class ClientSender extends MessengerThread {
 		server.println(Command.LOGOUT);
 	}
 
+	@Override
+	protected void help() {
+		clientUI.tell("send\t\tInitiatates the message sending sequence\n"
+		+ "current\t\tPrints message at the current pointer location\n"
+		+ "next\t\tMoves the pointer towards to the next most recent message and prints it\n"
+		+ "previous\tMoves the pointer towards the previous oldest message and prints it\n"
+		+ "delete\t\tDeletes the message at the pointer\n"
+		+ "logout\t\tLogs the client out of the current user\n"
+		+ "quit\t\tCloses the client application");
+	}
+
 	/**
 	 * Send the quit command to the server.
 	 */

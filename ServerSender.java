@@ -148,6 +148,9 @@ public class ServerSender extends MessengerThread {
 	}
 
 	@Override
+protected void help() { /* Do nothing */ }
+
+	@Override
 	protected void quit() {
 		// Send the quit command to the clientReceiver
 		client.println(Command.QUIT); // Matches FFFFF in ClientReceiver

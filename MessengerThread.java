@@ -55,6 +55,10 @@ public abstract class MessengerThread extends Thread {
 			logout();
 		}
 
+		if (command.equals(Command.HELP)) {
+			help();
+		}
+
 		if (command.equals(Command.QUIT)) {
 			quit();
 		}
@@ -98,6 +102,12 @@ public abstract class MessengerThread extends Thread {
 	 * the implementing classes.
 	 */
 	protected abstract void logout();
+
+	/**
+	 * This contains the code for the help command should it be called in one of
+	 * the implementing classes.
+	 */
+	protected abstract void help();
 
 	/**
 	 * This contains the code for the quit command should it be called in one of the

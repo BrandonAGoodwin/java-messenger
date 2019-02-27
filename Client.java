@@ -65,7 +65,7 @@ public class Client {
 
 		// Create the clientUI
 		clientUI = new ClientUI(DEFAULT_CLIENT_NAME, holder);
-
+		clientUI.tell("Enter the command 'help', for a list of the commands and a brief description of what they do.");
 		while (true) {
 			try {
 
@@ -83,6 +83,10 @@ public class Client {
 
 					if (command.equals(Command.LOGIN)) {
 						login();
+					}
+
+					if (command.equals(Command.HELP)) {
+						help();
 					}
 
 					if (command.equals(Command.QUIT)) {
@@ -164,49 +168,57 @@ public class Client {
 		toServer.println(nickname);
 
 		// Allow is returned if the the user name is not already in use
-		if (fromServer.readLine().equals(Command.ALLOW)) {
-			clientUI.tell("Please enter your password");
-
-			String password = clientUI.readLine();
-			toServer.println(password);
-
-			// Returns true if the password is correct
-			if (fromServer.readLine().equals(Command.ALLOW)) {
-				clientUI.setTitle(nickname + "'s Messages");
-
-				// Create two client threads of a different nature:
-				ClientSender sender = new ClientSender(clientUI, toServer);
-				ClientReceiver receiver = new ClientReceiver(fromServer, clientUI);
-
-				// Run them in parallel:
-				sender.start();
-				receiver.start();
-				clientUI.tell("Sucessfully logged in");
-
-				// Wait for them to end and close sockets.
-				try {
-					sender.join();
-					receiver.join();
-					clientUI.setTitle(DEFAULT_CLIENT_NAME);
-
-					// If the next messaged received from the server is LOGOUT then continue the
-					// while loop
-					if (fromServer.readLine().equals(Command.LOGOUT)) {
-						clientUI.tell("You have logged out");
-						toServer.println(Command.LOGOUT);
-					} else {
-						// Otherwise quit
-						quitting = true;
-					}
-				} catch (InterruptedException e) {
-					Report.errorAndGiveUp("Unexpected interruption " + e.getMessage());
-				}
-			} else {
-				clientUI.error("Incorrect password");
-			}
-		} else {
+		if (!fromServer.readLine().equals(Command.ALLOW)) {
 			clientUI.error("No users with that nickname exist");
+			return;
 		}
+		clientUI.tell("Please enter your password");
+
+		String password = clientUI.readLine();
+		toServer.println(password);
+
+		// Returns true if the password is correct
+		if (!fromServer.readLine().equals(Command.ALLOW)) {
+			clientUI.error("Incorrect password");
+			return;
+		}
+		clientUI.setTitle(nickname + "'s Messages");
+
+		// Create two client threads of a different nature:
+		ClientSender sender = new ClientSender(clientUI, toServer);
+		ClientReceiver receiver = new ClientReceiver(fromServer, clientUI);
+
+		// Run them in parallel:
+		sender.start();
+		receiver.start();
+		clientUI.tell("Sucessfully logged in");
+
+		// Wait for them to end and close sockets.
+		try {
+			sender.join();
+			receiver.join();
+			clientUI.setTitle(DEFAULT_CLIENT_NAME);
+
+			// If the next messaged received from the server is LOGOUT then continue the
+			// while loop
+			if (fromServer.readLine().equals(Command.LOGOUT)) {
+				clientUI.tell("You have logged out");
+				toServer.println(Command.LOGOUT);
+			} else {
+				// Otherwise quit
+				quitting = true;
+			}
+		} catch (InterruptedException e) {
+			Report.errorAndGiveUp("Unexpected interruption " + e.getMessage());
+		}
+		
+	}
+
+	private void help() {
+		clientUI.tell("login\t\tInitiates the login sequence\n"
+		+ "register\tInitiates the registration sequence\n"
+		+ "help\t\tDisplays the available commands and their function\n"
+		+ "quit\t\tCloses down this client");
 	}
 
 }
